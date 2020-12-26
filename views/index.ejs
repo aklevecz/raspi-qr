@@ -1,0 +1,73 @@
+<!doctype html> 
+<html class="no-js" lang=""> 
+ <head> 
+ <meta charset="utf-8"> 
+ <meta http-equiv="x-ua-compatible" content="ie=edge"> 
+ <title></title> 
+ <meta name="description" content=""> 
+ <meta name="viewport" content="width=device-width, initial-scale=1"> 
+ <link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+ <!-- Place favicon.ico in the root directory --> 
+ <!-- <link rel="stylesheet" href="css/normalize.css"> 
+ <link rel="stylesheet" href="css/main.css"> 
+ <script src="js/vendor/modernizr-2.8.3.min.js"></script>  -->
+ <style>
+     canvas {
+         display:block;
+         margin:auto;
+     }
+ </style>
+ </head> 
+ <body>
+     shakazulzu
+     <div>
+         <canvas>
+     </div>
+     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.js"></script>
+     <script src="modules/socket.io/client-dist/socket.io.js"></script>
+     <script type="module">
+         import * as THREE from 'http://media.cl3v3r.club/frogman/modules/three/build/three.module.js'
+         import Stats from "http://media.cl3v3r.club/frogman/modules/three/examples/jsm/libs/stats.module.js"
+         const img = document.querySelector('img')
+        const socket = io('http://media.cl3v3r.club/', {
+            path:"/frogman/socket.io"
+        })
+        
+        const canvas = document.querySelector('canvas')
+        QRCode.toCanvas(canvas, "http://media.cl3v3r.club/frogman/frogman", function(error) {
+            if (error) console.log(error)
+            console.log('success')
+        })
+        socket.on("peepee", () =>{
+            console.log('peeper')
+            canvas.style.filter = "invert(1)"
+        })
+
+
+         const scene = new THREE.Scene()
+         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, .1, 1000)
+         const renderer = new THREE.WebGLRenderer()
+         renderer.setSize(window.innerWidth, window.innerHeight)
+         document.body.appendChild(renderer.domElement)
+
+         const geometry = new THREE.BoxGeometry()
+         const material = new THREE.MeshBasicMaterial({color:0xFF0000})
+         const cube = new THREE.Mesh(geometry, material)
+         scene.add(cube)
+
+         camera.position.z = 5
+
+         const stats = new Stats()
+         document.body.appendChild(stats.domElement)
+
+         function animate(){
+             requestAnimationFrame(animate)
+
+             renderer.render(scene,camera)
+             stats.update()
+         }
+         animate()
+
+    </script>
+ </body>
+ </html>
